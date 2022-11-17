@@ -1,4 +1,4 @@
-import { workspace } from "vscode";
+import { workspace } from 'vscode';
 
 interface FormatFilesConfig {
   extensionsToInclude: string;
@@ -6,7 +6,7 @@ interface FormatFilesConfig {
   inheritWorkspaceExcludedFiles?: boolean;
   useGitIgnore?: boolean;
   excludedFolders?: string[];
-  logLevel?: "debug" | "info" | "warn" | "error";
+  logLevel?: 'debug' | 'info' | 'warn' | 'error';
 }
 
 export class Config {
@@ -22,8 +22,8 @@ export class Config {
   private loadConfigFromWorkspace(): void {
     this._formatFilesConfig = workspace
       .getConfiguration()
-      .get<FormatFilesConfig>("formatFiles", { extensionsToInclude: "" });
-    this._excludeFiles = workspace.getConfiguration().get<Record<string, boolean>>("files.exclude", {});
+      .get<FormatFilesConfig>('formatFiles', { extensionsToInclude: '' });
+    this._excludeFiles = workspace.getConfiguration().get<Record<string, boolean>>('files.exclude', {});
   }
 
   public get excludedFolders(): string[] {
@@ -38,16 +38,16 @@ export class Config {
     let targetExtensions = this._formatFilesConfig.extensionsToInclude;
 
     // for backwards compatibility, remove { & } if present
-    targetExtensions = targetExtensions.replace(/\{|\}/g, "");
+    targetExtensions = targetExtensions.replace(/\{|\}/g, '');
 
     return targetExtensions
-      .split(",")
+      .split(',')
       .map((ext) => ext.trim())
       .filter((ext) => !!ext);
   }
 
   public get excludePattern(): string {
-    return this._formatFilesConfig.excludePattern ?? "";
+    return this._formatFilesConfig.excludePattern ?? '';
   }
 
   public get inheritWorkspaceExcludedFiles(): boolean {

@@ -1,9 +1,8 @@
-import { Uri, WorkspaceFolder } from "vscode";
-//@ts-ignore
-import { fdir } from "fdir";
-import * as mm from "micromatch";
-import * as path from "path";
-import { Config } from "../utilities/config";
+import { Uri, WorkspaceFolder } from 'vscode';
+import { fdir } from 'fdir';
+import * as mm from 'micromatch';
+import * as path from 'path';
+import { Config } from '../utilities/config';
 
 type FilterFn = (path: string, isDirectory: boolean) => boolean;
 
@@ -25,7 +24,7 @@ export class FileQueryApi {
 
   public static async getWorkspaceFilesWithGlob(
     workspaceFolder: WorkspaceFolder,
-    options: WithGlobOptions
+    options: WithGlobOptions,
   ): Promise<Uri[]> {
     const api = new FileQueryApi(workspaceFolder, options.glob);
     api.useDefaultExcludes = options.useDefaultExcludes;
@@ -33,7 +32,7 @@ export class FileQueryApi {
   }
 
   private isByGlob(folderOrGlob?: Uri | string): folderOrGlob is string {
-    return !!this.folderOrGlob && typeof this.folderOrGlob === "string";
+    return !!this.folderOrGlob && typeof this.folderOrGlob === 'string';
   }
 
   private isByFolder(folderOrGlob?: Uri | string): folderOrGlob is Uri {
@@ -51,7 +50,7 @@ export class FileQueryApi {
         return matches;
       };
     } else if (this._config.extensionsToInclude.length) {
-      const extensions = this._config.extensionsToInclude.map((ext) => (ext.startsWith(".") ? ext : "." + ext));
+      const extensions = this._config.extensionsToInclude.map((ext) => (ext.startsWith('.') ? ext : '.' + ext));
 
       return (file): boolean => {
         const matches = extensions.some((e) => file.endsWith(e));
@@ -67,7 +66,7 @@ export class FileQueryApi {
     }
 
     const exclusions = this._config.excludePattern
-      .split(",")
+      .split(',')
       .map((exclusion) => exclusion.trim())
       .filter((exclusion) => !!exclusion);
 
@@ -75,7 +74,7 @@ export class FileQueryApi {
       this._config.workspaceExcludes.forEach((exc) => exclusions.push(exc));
     }
 
-    const exclusionsGlob = `{${exclusions.join(",")}}`;
+    const exclusionsGlob = `{${exclusions.join(',')}}`;
 
     return (file): boolean => {
       const pathAsRelative = path.relative(this.workspaceFolder.uri.fsPath, file);
@@ -100,7 +99,7 @@ export class FileQueryApi {
 
     if (this._config.excludedFolders.length) {
       const excludedFolders = this._config.excludedFolders.map((folder) =>
-        path.resolve(this.workspaceFolder.uri.fsPath, folder)
+        path.resolve(this.workspaceFolder.uri.fsPath, folder),
       );
       builder = builder.exclude((_directoryName: any, directoryPath: any) => {
         return excludedFolders.some((excludedFolder) => {

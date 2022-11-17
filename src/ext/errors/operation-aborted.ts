@@ -4,6 +4,6 @@ export class OperationAborted extends Error {
   }
 
   public toString(): string {
-    return "OperationAborted";
+    return 'OperationAborted';
   }
 }

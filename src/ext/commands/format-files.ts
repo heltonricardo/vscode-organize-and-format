@@ -1,6 +1,6 @@
-import { commands, ProgressLocation, Uri, ViewColumn, window } from "vscode";
-import { OperationAborted } from "../errors/operation-aborted";
-import { tryOpenDocument } from "./try-open-document";
+import { commands, ProgressLocation, Uri, ViewColumn, window } from 'vscode';
+import { OperationAborted } from '../errors/operation-aborted';
+import { tryOpenDocument } from './try-open-document';
 
 export async function formatFiles(files: Uri[]): Promise<void> {
   const incrementProgressBy = (1 / files.length) * 100;
@@ -9,7 +9,7 @@ export async function formatFiles(files: Uri[]): Promise<void> {
     {
       cancellable: true,
       location: ProgressLocation.Notification,
-      title: "formatting documents",
+      title: 'formatting documents',
     },
     async (progress, token) => {
       for (let index = 0; index < files.length; index++) {
@@ -20,7 +20,7 @@ export async function formatFiles(files: Uri[]): Promise<void> {
         progress.report({ message: file.fsPath, increment: incrementProgressBy });
         await formatFile(file);
       }
-    }
+    },
   );
 }
 
@@ -29,9 +29,9 @@ async function formatFile(file: Uri): Promise<void> {
 
   if (doc) {
     await window.showTextDocument(doc, { preview: false, viewColumn: ViewColumn.One });
-    await commands.executeCommand("editor.action.organizeImports");
-    await commands.executeCommand("editor.action.formatDocument");
-    await commands.executeCommand("workbench.action.files.save");
-    await commands.executeCommand("workbench.action.closeActiveEditor");
+    await commands.executeCommand('editor.action.organizeImports');
+    await commands.executeCommand('editor.action.formatDocument');
+    await commands.executeCommand('workbench.action.files.save');
+    await commands.executeCommand('workbench.action.closeActiveEditor');
   }
 }

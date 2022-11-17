@@ -1,5 +1,5 @@
-import { Uri, window, workspace, WorkspaceFolder } from "vscode";
-import { OperationAborted } from "../errors/operation-aborted";
+import { Uri, window, workspace, WorkspaceFolder } from 'vscode';
+import { OperationAborted } from '../errors/operation-aborted';
 
 export async function selectWorkspaceFolder(forFolder?: Uri): Promise<WorkspaceFolder> {
   if (workspace.workspaceFolders) {
@@ -19,7 +19,7 @@ export async function selectWorkspaceFolder(forFolder?: Uri): Promise<WorkspaceF
     }
   }
 
-  throw new OperationAborted("a workspace folder was not found");
+  throw new OperationAborted('a workspace folder was not found');
 }
 
 async function requestWorkspaceFolder(folders: WorkspaceFolder[]): Promise<WorkspaceFolder> {
@@ -27,12 +27,12 @@ async function requestWorkspaceFolder(folders: WorkspaceFolder[]): Promise<Works
     folders.map((folder) => folder.name),
     {
       ignoreFocusOut: true,
-      placeHolder: "Select workspace",
-    }
+      placeHolder: 'Select workspace',
+    },
   );
 
   if (!result) {
-    throw new OperationAborted("User aborted");
+    throw new OperationAborted('User aborted');
   }
 
   return folders.find((folder) => folder.name === result)!;
