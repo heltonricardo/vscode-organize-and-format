@@ -85,17 +85,9 @@
     ],
     "commands": [
       {
-        "command": "formatFiles.start.workspace",
-        "title": "Start Format Files: Workspace"
-      },
-      {
         "command": "formatFiles.start.workspaceFolder",
-        "title": "Start Format Files: This Folder",
+        "title": "📑 Organize imports and format files here",
         "enablement": "explorerViewletVisible && filesExplorerFocus && explorerResourceIsFolder"
-      },
-      {
-        "command": "formatFiles.start.fromGlob",
-        "title": "Start Format Files: From Glob"
       }
     ],
     "menus": {
