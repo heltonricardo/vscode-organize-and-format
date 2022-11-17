@@ -1,13 +1,13 @@
 {
-  "name": "jbockle-format-files",
+  "name": "heltonricardo-vscode-organize-and-format",
   "displayName": "Format Files",
-  "description": "Formats all files in the current workspace, selected folder or glob",
+  "description": "Organize imports and format all files in a folder",
   "icon": "icon.png",
-  "version": "3.4.0",
-  "publisher": "jbockle",
+  "version": "1.0.0",
+  "publisher": "heltonricardo",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jbockle/format-files.git"
+    "url": "https://github.com/heltonricardo/vscode-organize-and-format.git"
   },
   "engines": {
     "vscode": "^1.54.0"
