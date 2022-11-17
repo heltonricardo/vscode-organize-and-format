@@ -16,22 +16,12 @@ export async function formatFiles(files: Uri[]): Promise<void> {
       for (let index = 0; index < files.length; index++) {
         const file = files[index];
         if (token.isCancellationRequested) {
-          const message = `Operation cancelled. Processed ${index} files.`;
-          await showModal(message);
-          throw new OperationAborted(message);
+          throw new OperationAborted();
         }
         progress.report({ message: file.fsPath, increment: incrementProgressBy });
         await formatFile(file);
       }
-
-      if (!token.isCancellationRequested) {
-        await showModal(`Format Files completed. Processed ${files.length} files.`);
-      }
     });
-}
-
-async function showModal(message: string): Promise<void> {
-  await window.showInformationMessage(message, { modal: true });
 }
 
 async function formatFile(file: Uri): Promise<void> {

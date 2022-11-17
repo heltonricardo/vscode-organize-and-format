@@ -39,8 +39,6 @@ These settings are specific to VS Code and need to be set in the VS Code setting
   GlobPattern of paths to exclude.
 - `formatFiles.inheritWorkspaceExcludedFiles`: [ *default*: `true` ]
   Specifies that workspace globs specified in `files.exclude` that are `true` will be included in exclude glob
-- `formatFiles.runOrganizeImports`: [ *default*: `true` ]
-  Additionally organize all imports when formatting files (Uses the built-in 'Organize Imports' command, which is supported by some languages)
 - `formatFiles.useGitIgnore`: [ *default*: `true` ]
   If the workspace folder is a git repository, skips files that git ignores
 

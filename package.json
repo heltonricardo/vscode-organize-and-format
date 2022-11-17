@@ -74,12 +74,6 @@
             "description": "Determines if Format Files will inherit workspace excluded files",
             "default": true
           },
-          "formatFiles.runOrganizeImports": {
-            "scope": "resource",
-            "type": "boolean",
-            "description": "Whether or not to run 'Organize Imports' when formatting files",
-            "default": false
-          },
           "formatFiles.useGitIgnore": {
             "scope": "resource",
             "type": "boolean",

@@ -1,4 +1,5 @@
 import { Uri, WorkspaceFolder } from 'vscode';
+//@ts-ignore
 import { fdir } from 'fdir';
 import * as path from 'path';
 import * as mm from 'micromatch';
@@ -104,7 +105,7 @@ export class FileQueryApi {
 
     if (this._config.excludedFolders.length) {
       const excludedFolders = this._config.excludedFolders.map(folder => path.resolve(this.workspaceFolder.uri.fsPath, folder));
-      builder = builder.exclude((_directoryName, directoryPath) => {
+      builder = builder.exclude((_directoryName: any, directoryPath: any) => {
         return excludedFolders.some(excludedFolder => {
           return directoryPath.startsWith(excludedFolder);
         });
