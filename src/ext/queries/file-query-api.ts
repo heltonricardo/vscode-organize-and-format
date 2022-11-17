@@ -1,9 +1,9 @@
-import { Uri, WorkspaceFolder } from 'vscode';
+import { Uri, WorkspaceFolder } from "vscode";
 //@ts-ignore
-import { fdir } from 'fdir';
-import * as path from 'path';
-import * as mm from 'micromatch';
-import { Config } from '../utilities/config';
+import { fdir } from "fdir";
+import * as mm from "micromatch";
+import * as path from "path";
+import { Config } from "../utilities/config";
 
 type FilterFn = (path: string, isDirectory: boolean) => boolean;
 
@@ -12,14 +12,10 @@ type WithGlobOptions = {
   useDefaultExcludes: boolean;
 };
 
-
 export class FileQueryApi {
   private _config = Config.instance;
 
-  private constructor(
-    public readonly workspaceFolder: WorkspaceFolder,
-    public readonly folderOrGlob?: Uri | string,
-  ) { }
+  private constructor(public readonly workspaceFolder: WorkspaceFolder, public readonly folderOrGlob?: Uri | string) {}
 
   public useDefaultExcludes = true;
 
@@ -27,14 +23,17 @@ export class FileQueryApi {
     return new FileQueryApi(workspaceFolder, inFolder).execute();
   }
 
-  public static async getWorkspaceFilesWithGlob(workspaceFolder: WorkspaceFolder, options: WithGlobOptions): Promise<Uri[]> {
+  public static async getWorkspaceFilesWithGlob(
+    workspaceFolder: WorkspaceFolder,
+    options: WithGlobOptions
+  ): Promise<Uri[]> {
     const api = new FileQueryApi(workspaceFolder, options.glob);
     api.useDefaultExcludes = options.useDefaultExcludes;
     return api.execute();
   }
 
   private isByGlob(folderOrGlob?: Uri | string): folderOrGlob is string {
-    return !!this.folderOrGlob && typeof this.folderOrGlob === 'string';
+    return !!this.folderOrGlob && typeof this.folderOrGlob === "string";
   }
 
   private isByFolder(folderOrGlob?: Uri | string): folderOrGlob is Uri {
@@ -42,7 +41,6 @@ export class FileQueryApi {
   }
 
   private getIncludeFilter(): FilterFn | undefined {
-
     if (this.isByGlob(this.folderOrGlob)) {
       const glob = this.folderOrGlob;
 
@@ -53,33 +51,31 @@ export class FileQueryApi {
         return matches;
       };
     } else if (this._config.extensionsToInclude.length) {
-      const extensions = this._config.extensionsToInclude.map(ext => ext.startsWith('.') ? ext : '.' + ext);
+      const extensions = this._config.extensionsToInclude.map((ext) => (ext.startsWith(".") ? ext : "." + ext));
 
       return (file): boolean => {
-        const matches = extensions.some(e => file.endsWith(e));
+        const matches = extensions.some((e) => file.endsWith(e));
 
         return matches;
       };
     }
-
   }
 
   private getExcludeFilter(): FilterFn | undefined {
-
     if (!this.useDefaultExcludes) {
       return;
     }
 
     const exclusions = this._config.excludePattern
-      .split(',')
-      .map(exclusion => exclusion.trim())
-      .filter(exclusion => !!exclusion);
+      .split(",")
+      .map((exclusion) => exclusion.trim())
+      .filter((exclusion) => !!exclusion);
 
     if (this._config.inheritWorkspaceExcludedFiles) {
       this._config.workspaceExcludes.forEach((exc) => exclusions.push(exc));
     }
 
-    const exclusionsGlob = `{${exclusions.join(',')}}`;
+    const exclusionsGlob = `{${exclusions.join(",")}}`;
 
     return (file): boolean => {
       const pathAsRelative = path.relative(this.workspaceFolder.uri.fsPath, file);
@@ -90,7 +86,6 @@ export class FileQueryApi {
   }
 
   private async execute(): Promise<Uri[]> {
-
     let builder = new fdir().withFullPaths();
     const includeFilter = this.getIncludeFilter();
 
@@ -104,14 +99,15 @@ export class FileQueryApi {
     }
 
     if (this._config.excludedFolders.length) {
-      const excludedFolders = this._config.excludedFolders.map(folder => path.resolve(this.workspaceFolder.uri.fsPath, folder));
+      const excludedFolders = this._config.excludedFolders.map((folder) =>
+        path.resolve(this.workspaceFolder.uri.fsPath, folder)
+      );
       builder = builder.exclude((_directoryName: any, directoryPath: any) => {
-        return excludedFolders.some(excludedFolder => {
+        return excludedFolders.some((excludedFolder) => {
           return directoryPath.startsWith(excludedFolder);
         });
       });
     }
-
 
     const searcher = this.isByFolder(this.folderOrGlob)
       ? builder.crawl(this.folderOrGlob.fsPath) // search for specified folder
@@ -122,7 +118,6 @@ export class FileQueryApi {
     if (Array.isArray(output)) {
       return output.map(Uri.file);
     }
-
 
     return [];
   }

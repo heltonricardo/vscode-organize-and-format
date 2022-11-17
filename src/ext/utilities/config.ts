@@ -1,4 +1,4 @@
-import { workspace } from 'vscode';
+import { workspace } from "vscode";
 
 interface FormatFilesConfig {
   extensionsToInclude: string;
@@ -6,7 +6,7 @@ interface FormatFilesConfig {
   inheritWorkspaceExcludedFiles?: boolean;
   useGitIgnore?: boolean;
   excludedFolders?: string[];
-  logLevel?: 'debug' | 'info' | 'warn' | 'error';
+  logLevel?: "debug" | "info" | "warn" | "error";
 }
 
 export class Config {
@@ -20,8 +20,10 @@ export class Config {
   public static readonly instance = new Config();
 
   private loadConfigFromWorkspace(): void {
-    this._formatFilesConfig = workspace.getConfiguration().get<FormatFilesConfig>('formatFiles', { extensionsToInclude: '' });
-    this._excludeFiles = workspace.getConfiguration().get<Record<string, boolean>>('files.exclude', {});
+    this._formatFilesConfig = workspace
+      .getConfiguration()
+      .get<FormatFilesConfig>("formatFiles", { extensionsToInclude: "" });
+    this._excludeFiles = workspace.getConfiguration().get<Record<string, boolean>>("files.exclude", {});
   }
 
   public get excludedFolders(): string[] {
@@ -36,15 +38,16 @@ export class Config {
     let targetExtensions = this._formatFilesConfig.extensionsToInclude;
 
     // for backwards compatibility, remove { & } if present
-    targetExtensions = targetExtensions.replace(/\{|\}/g, '');
+    targetExtensions = targetExtensions.replace(/\{|\}/g, "");
 
-    return targetExtensions.split(',')
-      .map(ext => ext.trim())
-      .filter(ext => !!ext);
+    return targetExtensions
+      .split(",")
+      .map((ext) => ext.trim())
+      .filter((ext) => !!ext);
   }
 
   public get excludePattern(): string {
-    return this._formatFilesConfig.excludePattern ?? '';
+    return this._formatFilesConfig.excludePattern ?? "";
   }
 
   public get inheritWorkspaceExcludedFiles(): boolean {
@@ -53,8 +56,8 @@ export class Config {
 
   public get workspaceExcludes(): string[] {
     return Object.keys(this._excludeFiles)
-      .filter(glob => this._excludeFiles[glob])
-      .map(glob => glob);
+      .filter((glob) => this._excludeFiles[glob])
+      .map((glob) => glob);
   }
 
   public get useGitIgnore(): boolean {
