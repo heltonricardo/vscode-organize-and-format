@@ -1,5 +1,4 @@
 import { workspace } from 'vscode';
-import { Logger, LogLevel } from './logger';
 
 interface FormatFilesConfig {
   extensionsToInclude: string;
@@ -14,10 +13,8 @@ interface FormatFilesConfig {
 export class Config {
   private _excludeFiles: Record<string, boolean> = {};
   private _formatFilesConfig!: FormatFilesConfig;
-  private _logger: Logger;
 
   private constructor() {
-    this._logger = new Logger('config');
     this.loadConfigFromWorkspace();
   }
 
@@ -26,9 +23,6 @@ export class Config {
   private loadConfigFromWorkspace(): void {
     this._formatFilesConfig = workspace.getConfiguration().get<FormatFilesConfig>('formatFiles', { extensionsToInclude: '' });
     this._excludeFiles = workspace.getConfiguration().get<Record<string, boolean>>('files.exclude', {});
-    Logger.logLevel = LogLevel[this._formatFilesConfig.logLevel ?? 'info'];
-    this._logger.info(`config: ${JSON.stringify(this._formatFilesConfig)}`);
-    this._logger.info(`excluded files: ${JSON.stringify(this._excludeFiles)}`);
   }
 
   public get excludedFolders(): string[] {

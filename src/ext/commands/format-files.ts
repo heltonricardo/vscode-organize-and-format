@@ -1,10 +1,7 @@
 import { commands, ProgressLocation, Uri, ViewColumn, window } from 'vscode';
-import { Logger } from '../utilities/logger';
 import { tryOpenDocument } from './try-open-document';
 import { OperationAborted } from '../errors/operation-aborted';
 import { Config } from '../utilities/config';
-
-const logger = new Logger('format-files');
 
 export async function formatFiles(files: Uri[]): Promise<void> {
   const incrementProgressBy = (1 / files.length) * 100;
@@ -38,15 +35,11 @@ async function showModal(message: string): Promise<void> {
 }
 
 async function formatFile(file: Uri): Promise<void> {
-  logger.info(`formatting ${file.fsPath}`);
-
   const doc = await tryOpenDocument(file.path);
 
   if (doc) {
     await window.showTextDocument(doc, { preview: false, viewColumn: ViewColumn.One });
-    if (Config.instance.runOrganizeImports) {
-      await commands.executeCommand('editor.action.organizeImports');
-    }
+    await commands.executeCommand('editor.action.organizeImports');
     await commands.executeCommand('editor.action.formatDocument');
     await commands.executeCommand('workbench.action.files.save');
     await commands.executeCommand('workbench.action.closeActiveEditor');

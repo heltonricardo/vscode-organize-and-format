@@ -1,8 +1,6 @@
 import { window } from 'vscode';
 import { OperationAborted } from '../errors/operation-aborted';
-import { Logger } from '../utilities/logger';
 
-const logger = new Logger('request-glob');
 
 export async function requestGlob(): Promise<string> {
   const maybeGlob = await window.showInputBox({
@@ -11,7 +9,6 @@ export async function requestGlob(): Promise<string> {
     prompt: 'Format Files matching glob pattern - press esc to cancel',
   });
 
-  logger.info(`glob entered: ${maybeGlob}`);
 
   if (!maybeGlob) {
     throw new OperationAborted('Glob pattern undefined or empty');
