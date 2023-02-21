@@ -3,7 +3,7 @@
   "displayName": "Organize Imports and Format Files",
   "description": "Organize imports and format all files in a folder",
   "icon": "icon.png",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "publisher": "heltonricardo",
   "repository": {
     "type": "git",
