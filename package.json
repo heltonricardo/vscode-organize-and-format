@@ -3,7 +3,7 @@
   "displayName": "Organize Imports and Format Files",
   "description": "Organize imports and format all files in a folder",
   "icon": "icon.png",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "publisher": "heltonricardo",
   "repository": {
     "type": "git",
@@ -115,9 +115,9 @@
     "@typescript-eslint/eslint-plugin": "^4.28.4",
     "@typescript-eslint/parser": "^4.28.4",
     "eslint": "^7.31.0",
-    "jest": "^27.0.6",
+    "jest": "^30.3.0",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.0.4",
+    "ts-jest": "^29.4.9",
     "typescript": "^4.3.5"
   },
   "dependencies": {

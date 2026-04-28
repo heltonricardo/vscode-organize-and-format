@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.0.4 (2026-04-28)
+
+- Security updates [#10](https://github.com/heltonricardo/vscode-organize-and-format/pull/10)
+
 ## 1.0.3 (2024-06-26)
 
 - Improve the readme file
